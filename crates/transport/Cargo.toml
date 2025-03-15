@@ -39,11 +39,11 @@ governor = { version = "0.8.1", default-features = false, features = [
 ], optional = true }
 
 # non-WASM only
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+[target.'cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))'.dependencies]
 tokio = { workspace = true, features = ["rt", "time"] }
 
 # WASM only
-[target.'cfg(target_arch = "wasm32")'.dependencies]
+[target.'cfg(all(target_arch = "wasm32", not(target_vendor = "wasmer")))'.dependencies]
 wasm-bindgen-futures = { version = "0.4", optional = true }
 wasmtimer.workspace = true
 

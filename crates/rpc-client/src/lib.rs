@@ -30,7 +30,7 @@ pub use poller::{PollChannel, PollerBuilder};
 #[cfg(feature = "ws")]
 pub use alloy_transport_ws::WsConnect;
 
-#[cfg(all(feature = "ipc", not(target_arch = "wasm32")))]
+#[cfg(all(feature = "ipc", any(not(target_arch = "wasm32"), target_vendor = "wasmer")))]
 pub use alloy_transport_ipc::IpcConnect;
 
 /// A client using a [`reqwest`] HTTP transport.

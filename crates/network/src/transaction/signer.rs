@@ -75,8 +75,8 @@ pub trait NetworkWallet<N: Network>: std::fmt::Debug + Send + Sync {
 ///
 /// [EIP-155]: https://eips.ethereum.org/EIPS/eip-155
 /// [`ChainId`]: alloy_primitives::ChainId
-#[cfg_attr(target_arch = "wasm32", async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait)]
 #[auto_impl(&, &mut, Box, Rc, Arc)]
 #[doc(alias = "TransactionSigner")]
 pub trait TxSigner<Signature> {
