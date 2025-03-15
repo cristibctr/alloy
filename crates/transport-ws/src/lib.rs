@@ -11,17 +11,17 @@ extern crate tracing;
 
 use alloy_pubsub::ConnectionInterface;
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 mod native;
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 pub use native::{WebSocketConfig, WsConnect};
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 use rustls as _;
 
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", not(target_vendor = "wasmer")))]
 mod wasm;
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", not(target_vendor = "wasmer")))]
 pub use wasm::WsConnect;
 
 /// An ongoing connection to a backend.

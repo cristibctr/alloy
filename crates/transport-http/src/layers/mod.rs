@@ -1,5 +1,5 @@
 //! tower http like layer implementations that work over the http::Request type.
-#![cfg(all(not(target_arch = "wasm32"), feature = "hyper"))]
+#![cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper"))]
 
 #[cfg(feature = "jwt-auth")]
 mod auth;

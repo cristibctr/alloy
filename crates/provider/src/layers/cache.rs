@@ -140,9 +140,9 @@ macro_rules! cache_rpc_call_with_block {
     }};
 }
 
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
-impl<P, T, N> Provider<T, N> for CacheProvider<P, T, N>
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
+impl<P, N> Provider<N> for CacheProvider<P, T, N>
 where
     P: Provider<T, N>,
     T: Transport + Clone,

@@ -7,8 +7,8 @@ use alloy_transport::{Transport, TransportResult};
 
 /// Txpool namespace rpc interface.
 #[allow(unused, unreachable_pub)]
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 pub trait TxPoolApi<T, N: Network = Ethereum>: Send + Sync {
     /// Returns the content of the transaction pool.
     ///
@@ -45,8 +45,8 @@ pub trait TxPoolApi<T, N: Network = Ethereum>: Send + Sync {
     async fn txpool_status(&self) -> TransportResult<TxpoolStatus>;
 }
 
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 impl<P, T, N> TxPoolApi<T, N> for P
 where
     P: Provider<T, N>,

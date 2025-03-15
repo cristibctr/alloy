@@ -62,10 +62,7 @@ alloy-rpc-types = { version = "0.9", path = "crates/rpc-types", default-features
 alloy-serde = { version = "0.9", path = "crates/serde", default-features = false }
 alloy-signer = { version = "0.9", path = "crates/signer", default-features = false }
 alloy-signer-aws = { version = "0.9", path = "crates/signer-aws", default-features = false }
-alloy-signer-gcp = { version = "0.9", path = "crates/signer-gcp", default-features = false }
-alloy-signer-ledger = { version = "0.9", path = "crates/signer-ledger", default-features = false }
 alloy-signer-local = { version = "0.9", path = "crates/signer-local", default-features = false }
-alloy-signer-trezor = { version = "0.9", path = "crates/signer-trezor", default-features = false }
 alloy-transport = { version = "0.9", path = "crates/transport", default-features = false }
 alloy-transport-http = { version = "0.9", path = "crates/transport-http", default-features = false }
 alloy-transport-ipc = { version = "0.9", path = "crates/transport-ipc", default-features = false }
@@ -109,7 +106,7 @@ wasmtimer = "0.4.0"
 hyper = { version = "1.2", default-features = false }
 hyper-util = "0.1"
 http-body-util = "0.1"
-tokio = "1"
+tokio = { version = "=1.41.1", features = ["fs"] }
 tokio-util = "0.7"
 tokio-stream = "0.1"
 rustls = { version = "0.23", default-features = false, features = [
@@ -162,3 +159,33 @@ serial_test = "3.0"
 similar-asserts = "1.5"
 tempfile = "3.10"
 tower-http = "0.6.1"
+
+socket2 = "=0.6.0"
+
+[patch.crates-io]
+c-kzg = {path = "../c-kzg-4844"}
+tokio = { git = "https://github.com/cristibctr/tokio-wasix", branch = "wasix-1.41.1" }
+socket2 = { git = "https://github.com/cristibctr/socket2.git", branch = "v0.6.0" }
+hostname = { path = "../hostname"}
+libc = { git = "https://github.com/cristibctr/libc-0.2.169", branch = "wasix-0.2.169" }
+metrics-process = { git = "https://github.com/cristibctr/rs-metrics-process", branch = "feat/add-wasm-support" }
+rustls-platform-verifier = { version = "=0.5", optional = false, path = "../rustls-platform-verifier/rustls-platform-verifier" }
+jsonrpsee = { git = "https://github.com/cristibctr/jsonrpsee", branch = "master" }
+jsonrpsee-core = { git = "https://github.com/cristibctr/jsonrpsee", branch = "master" }
+jsonrpsee-server = { git = "https://github.com/cristibctr/jsonrpsee", branch = "master" }
+jsonrpsee-http-client = { git = "https://github.com/cristibctr/jsonrpsee", branch = "master" }
+jsonrpsee-types = { git = "https://github.com/cristibctr/jsonrpsee", branch = "master" }
+getrandom = { git = "https://github.com/cristibctr/getrandom", branch = "feat/add-wasm-support-0.3.1" }
+procfs = { git = "https://github.com/cristibctr/procfs", branch = "feat/add-wasm-support" }
+rustix = { git = "https://github.com/cristibctr/rustix", branch = "feat/add-wasm-support" }
+crossterm = { git = "https://github.com/cristibctr/crossterm", branch = "feat/add-wasm-support" }
+mio = { git = "https://github.com/cristibctr/mio", branch = "v1.0.1" }
+parking_lot = { git = "https://github.com/cristibctr/parking_lot", branch = "master" }
+reqwest = { git = "https://github.com/cristibctr/reqwest", branch = "master" }
+hyper-util = { git = "https://github.com/cristibctr/hyper-util", branch = "master" }
+discv5 = { git = "https://github.com/cristibctr/discv5", rev = "v0.8.1" }
+interprocess = { git = "https://github.com/cristibctr/interprocess", branch = "main" }
+hickory-resolver = { git = "https://github.com/cristibctr/hickory-dns", branch = "v0.25.0-alpha.5" }
+futures-utils-wasm = { git = "https://github.com/cristibctr/futures-utils-wasm", branch = "main" }
+rustls-native-certs = { git = "https://github.com/cristibctr/rustls-native-certs", branch = "main"}
+tonic = { git = "https://github.com/cristibctr/tonic", branch = "master"}

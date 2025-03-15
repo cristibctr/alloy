@@ -21,10 +21,10 @@ use tokio::{
     sync::{mpsc, oneshot, watch},
 };
 
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", not(target_vendor = "wasmer")))]
 use wasmtimer::{std::Instant, tokio::sleep_until};
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 use {std::time::Instant, tokio::time::sleep_until};
 
 /// Errors which may occur when watching a pending transaction.
@@ -636,7 +636,7 @@ impl<N: Network, S: Stream<Item = N::BlockResponse> + Unpin + 'static> Heartbeat
     }
 }
 
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", not(target_vendor = "wasmer")))]
 impl<N: Network, S: Stream<Item = N::BlockResponse> + Unpin + 'static> Heartbeat<N, S> {
     /// Spawn the heartbeat task, returning a [`HeartbeatHandle`].
     pub(crate) fn spawn(self) -> HeartbeatHandle<N> {
@@ -646,7 +646,7 @@ impl<N: Network, S: Stream<Item = N::BlockResponse> + Unpin + 'static> Heartbeat
     }
 }
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 impl<N: Network, S: Stream<Item = N::BlockResponse> + Unpin + Send + 'static> Heartbeat<N, S> {
     /// Spawn the heartbeat task, returning a [`HeartbeatHandle`].
     pub(crate) fn spawn(self) -> HeartbeatHandle<N> {

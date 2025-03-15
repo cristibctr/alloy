@@ -15,19 +15,19 @@ mod reqwest_transport;
 #[doc(inline)]
 pub use reqwest_transport::*;
 
-#[cfg(all(not(target_arch = "wasm32"), feature = "hyper"))]
+#[cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper"))]
 pub use hyper;
-#[cfg(all(not(target_arch = "wasm32"), feature = "hyper"))]
+#[cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper"))]
 pub use hyper_util;
 
-#[cfg(all(not(target_arch = "wasm32"), feature = "hyper", feature = "jwt-auth"))]
+#[cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper", feature = "jwt-auth"))]
 mod layers;
-#[cfg(all(not(target_arch = "wasm32"), feature = "hyper", feature = "jwt-auth"))]
+#[cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper", feature = "jwt-auth"))]
 pub use layers::{AuthLayer, AuthService};
 
-#[cfg(all(not(target_arch = "wasm32"), feature = "hyper"))]
+#[cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper"))]
 mod hyper_transport;
-#[cfg(all(not(target_arch = "wasm32"), feature = "hyper"))]
+#[cfg(all(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), feature = "hyper"))]
 #[doc(inline)]
 pub use hyper_transport::{HyperClient, HyperResponse, HyperResponseFut, HyperTransport};
 

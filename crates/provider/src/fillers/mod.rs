@@ -276,8 +276,8 @@ where
     }
 }
 
-#[cfg_attr(target_arch = "wasm32", async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait)]
 impl<F, P, T, N> Provider<T, N> for FillProvider<F, P, T, N>
 where
     F: TxFiller<N>,

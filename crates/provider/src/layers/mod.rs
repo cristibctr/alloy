@@ -10,7 +10,7 @@ pub use anvil::{AnvilLayer, AnvilProvider};
 mod chain;
 pub use chain::ChainLayer;
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 mod cache;
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 pub use cache::{CacheLayer, CacheProvider, SharedCache};

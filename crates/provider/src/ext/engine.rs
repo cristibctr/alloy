@@ -13,8 +13,8 @@ use alloy_transport::{Transport, TransportResult};
 ///
 /// Note:
 /// > The provider should use a JWT authentication layer.
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 pub trait EngineApi<N, T>: Send + Sync {
     /// Sends the given payload to the execution layer client, as specified for the Paris fork.
     ///
@@ -179,8 +179,8 @@ pub trait EngineApi<N, T>: Send + Sync {
     ) -> TransportResult<Vec<String>>;
 }
 
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 impl<N, T, P> EngineApi<N, T> for P
 where
     N: Network,

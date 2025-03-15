@@ -67,8 +67,8 @@ pub type FilterPollerBuilder<T, R> = PollerBuilder<T, (U256,), Vec<R>>;
 ///
 /// [`TransactionBuilder`]: alloy_network::TransactionBuilder
 /// [`DebugApi`]: crate::ext::DebugApi
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 #[auto_impl::auto_impl(&, &mut, Rc, Arc, Box)]
 pub trait Provider<T: Transport + Clone = BoxTransport, N: Network = Ethereum>:
     Send + Sync
@@ -1066,8 +1066,8 @@ pub trait Provider<T: Transport + Clone = BoxTransport, N: Network = Ethereum>:
     }
 }
 
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 impl<T: Transport + Clone, N: Network> Provider<T, N> for RootProvider<T, N> {
     #[inline]
     fn root(&self) -> &Self {

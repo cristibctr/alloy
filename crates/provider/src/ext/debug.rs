@@ -14,8 +14,8 @@ use alloy_rpc_types_trace::geth::{
 use alloy_transport::{Transport, TransportResult};
 
 /// Debug namespace rpc interface that gives access to several non-standard RPC methods.
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 pub trait DebugApi<N, T>: Send + Sync {
     /// Returns an RLP-encoded header.
     async fn debug_get_raw_header(&self, block: BlockId) -> TransportResult<Bytes>;
@@ -251,8 +251,8 @@ pub trait DebugApi<N, T>: Send + Sync {
     ) -> TransportResult<ExecutionWitness>;
 }
 
-#[cfg_attr(target_arch = "wasm32", async_trait::async_trait(?Send))]
-#[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
+#[cfg_attr(all(target_arch = "wasm32", not(target_vendor = "wasmer")), async_trait::async_trait(?Send))]
+#[cfg_attr(any(not(target_arch = "wasm32"), target_vendor = "wasmer"), async_trait::async_trait)]
 impl<N, T, P> DebugApi<N, T> for P
 where
     N: Network,

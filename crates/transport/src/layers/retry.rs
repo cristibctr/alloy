@@ -14,10 +14,10 @@ use std::{
 use tower::{Layer, Service};
 use tracing::trace;
 
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", not(target_vendor = "wasmer")))]
 use wasmtimer::tokio::sleep;
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(any(not(target_arch = "wasm32"), target_vendor = "wasmer"))]
 use tokio::time::sleep;
 
 /// A Transport Layer that is responsible for retrying requests based on the
